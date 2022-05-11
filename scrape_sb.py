@@ -1,4 +1,5 @@
 import db_connector
+import datetime as dt
 import requests, time, json
 from bs4 import BeautifulSoup as bs
 
@@ -12,8 +13,20 @@ def find_next_page(soup, identifier_string):
 
 def load_article_data(soup, identifier_string):
    for pagelink in soup.select(identifier_string):
-      article_url = pagelink.find('a', recursive=False).attrs.get('href')
-      article_data = requests.get(article_url)
+      article_url = pagelink.select_one('.item__link', recursive=True).attrs.get('href')
+
+      article_data = {}
+      article_data['title'] = pagelink.select_one('.item__title', recursive=False).text.strip('\t\r\n')
+      article_data['date'] = dt.datetime.strptime(
+         pagelink.select_one('.item__data.item__data--date', recursive=False).text.strip('\t\r\n '),
+         '%d %B %Y'
+      )
+
+      article = requests.get(article_url)
+      # article_soup = bs(article.content)
+      #    'title' : article_soup.select_one('')
+      # }
+      time.sleep(2)
 
 
 def add_article_to_db(soup, identifier_string):
@@ -26,7 +39,6 @@ main_soup = bs(result.content)
 
 ### Pagination
 while True:
-   time.sleep(1)
    next_page_url = find_next_page(main_soup, '.pagination__item.is-active')
    print(next_page_url)
    if not next_page_url: break
@@ -38,7 +50,8 @@ while True:
       break
 
    main_soup = bs(next_page.content)
-   load_article_data(main_soup, '')
+   load_article_data(main_soup, 'article.item')
+   break
 
 
 
