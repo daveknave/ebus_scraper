@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="scraping_01" uuid="8ec22103-a981-40c4-8c6a-c0f2ec87b866">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\David\PycharmProjects\ebus_scraper\scraping_01.db</jdbc-url>
+    </data-source>
+  </component>
+</project>
