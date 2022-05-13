@@ -70,7 +70,7 @@ while True:
    articles_df.transpose().to_sql('articles', con, if_exists='replace')
    con.close()
 
-   break
+
 
 
 grab_data()
