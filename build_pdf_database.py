@@ -44,6 +44,10 @@ def export_to_pdf():
                     hr {
                         display: none;
                     }
+                    .parent-shareBox, .tip-us-email-container {
+                        display: none;
+                    }
+                    
                 </style>            
             </head>
             <body>    

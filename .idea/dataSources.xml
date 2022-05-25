@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="scraping_01" uuid="8ec22103-a981-40c4-8c6a-c0f2ec87b866">
+    <data-source source="LOCAL" name="scraping_01 [2]" uuid="4c9b59e5-558d-4e41-a7c6-b665226730b7">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\David\PycharmProjects\ebus_scraper\scraping_01.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/scraping_01.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.36.0.3/sqlite-jdbc-3.36.0.3.jar</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>
