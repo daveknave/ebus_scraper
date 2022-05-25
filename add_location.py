@@ -9,7 +9,7 @@ from spacy import displacy
 
 con = sqlite3.connect('scraping_01.db')
 articles_df = pd.read_sql('SELECT DISTINCT * FROM articles', con)
-locations = pd.read_sql('SELECT DISTINCT * FROM locations', con)
+# locations = pd.read_sql('SELECT DISTINCT * FROM locations', con)
 con.close()
 #%%
 def determine_place(d):
@@ -23,7 +23,7 @@ def determine_place(d):
     locs[0] = locs[0].str.replace('.', '')
     locs[0] = locs[0].str.replace(r'   .+', '', regex=True)
     locs = locs.rename(columns={0 : 'location'})
-    loc_counts = locs.groupby('location', as_index=False).apply(lambda a: (a['location'], a.count()))
+    loc_counts = locs.groupby('location', as_index=False).apply(lambda a: pd.Series({'location' : a['location'], 'count' : a.count()}))
     loc_counts = loc_counts.sort_values(by=['location']).head(3)
 
 

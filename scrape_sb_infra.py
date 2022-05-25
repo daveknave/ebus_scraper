@@ -49,7 +49,12 @@ def scrape():
    load_article_data(main_soup, 'article.item', article_list)
    ### Pagination
    while True:
-      next_page_url = find_next_page(main_soup, '.pagination__item.is-active')
+      next_page_url = None
+      try:
+         next_page_url = find_next_page(main_soup, '.pagination__item.is-active')
+      except AttributeError as e:
+         break
+
       print(next_page_url)
       if not next_page_url: break
 
@@ -60,7 +65,11 @@ def scrape():
          break
 
       main_soup = bs(next_page.content)
-      load_article_data(main_soup, 'article.item', article_list)
+
+      try:
+         load_article_data(main_soup, 'article.item', article_list)
+      except AttributeError as e:
+         break
 
       con = sqlite3.connect('scraping_01.db')
       articles_df = pd.DataFrame(data=article_list)

@@ -64,7 +64,12 @@ def scrape():
          break
 
       main_soup = bs(next_page.content)
-      load_article_data(main_soup, 'article.item', article_list)
+
+      try:
+         load_article_data(main_soup, 'article.item', article_list)
+      except AttributeError as e:
+         break
+
 
       con = sqlite3.connect('scraping_01.db')
       articles_df = pd.DataFrame(data=article_list)

@@ -43,11 +43,10 @@ def scrape():
       result = requests.get('https://insideevs.com/news/category/bus?p=' + str(page))
       main_soup = bs(result.content)
 
-      load_article_data(main_soup, 'div.item.wcom', article_list)
-      # try:
-      #    load_article_data(main_soup, 'div.item', article_list)
-      # except AttributeError as e:
-      #    break
+      try:
+         load_article_data(main_soup, 'div.item.wcom', article_list)
+      except AttributeError as e:
+         break
 
       con = sqlite3.connect('scraping_01.db')
       articles_df = pd.DataFrame(data=article_list)
