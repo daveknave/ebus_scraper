@@ -8,8 +8,23 @@ def export_to_pdf():
     # os.chdir(r'C:\Users\David\PycharmProjects\ebus_scraper')
     config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
 
+    with open('db_search/boolean_string_search.sql', 'r') as f:
+        sql_query = f.read()
+        f.close()
     con = sqlite3.connect('scraping_01.db')
-    articles_df = pd.read_sql('SELECT DISTINCT * FROM articles', con)
+    # articles_df = pd.read_sql('SELECT DISTINCT * FROM articles', con)
+    articles_df = pd.read_sql("""select distinct * from searchable_articles where
+                               searchable_articles MATCH 'tender* ' ||
+                                                         'OR order* ' ||
+                                                         'OR buy_ ' ||
+                                                         'OR win_ ' ||
+                                                         'OR won ' ||
+                                                         'OR rollout ' ||
+                                                         'OR aqui* ' ||
+                                                         'OR deliver*' ||
+                                                         'OR purchase_'
+    order by date""", con)
+    # articles_df = pd.read_sql(sql_query, con)
 
     con.close()
     #%%
