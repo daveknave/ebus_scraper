@@ -5,8 +5,8 @@ import markdown, pdfkit, os
 import datetime as dt
 #%%
 def export_to_pdf():
-    # os.chdir(r'C:\Users\David\PycharmProjects\ebus_scraper')
-    config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
+    os.chdir(r'C:\Users\David\PycharmProjects\ebus_scraper')
+    # config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
 
     with open('db_search/boolean_string_search.sql', 'r') as f:
         sql_query = f.read()
@@ -41,7 +41,12 @@ def export_to_pdf():
         }
         # mdo = markdown.markdown('#' + data['title'] + '\n' + data['date'].split(' ')[0] + '  |  ' + data['tags'] + '\n\n' + data['text'], output_format='html5')
         mdo = '<h1>' + data['title'] + '</h1>' + data['date'].split(' ')[0] + '  |  ' + data['tags'] + '<br/><br/>' + data['text']
-        print(mdo)
+
+        wordcloud = ''
+
+        for idx,country in pd.read_json(data['location']).iterrows():
+            wordcloud = wordcloud + idx + ''
+
         mdo = """
             <!DOCTYPE html>
             <html>
