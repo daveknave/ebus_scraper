@@ -1,9 +1,9 @@
 -- Create virtual table for advanced search functionallity.
 DROP TABLE IF EXISTS searchable_articles;
-create virtual table searchable_articles USING FTS5(date, source, title, text, index);
+create virtual table searchable_articles USING FTS5(date, source, title, text, index, tags, location);
 
 -- Import data into virtual table.
-INSERT INTO searchable_articles select date, source, title, text, "index" source from articles;
+INSERT INTO searchable_articles select date, source, title, text, "index", tags, location from articles;
 
 -- Search the DB
 select distinct * from searchable_articles where
