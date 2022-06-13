@@ -1,8 +1,11 @@
 import sqlite3
+from urllib.parse import urlencode
+
 import pandas as pd
 import os.path
 import markdown, pdfkit, os
 import datetime as dt
+import bs4
 
 from sklearn.preprocessing import MinMaxScaler
 
@@ -18,10 +21,9 @@ def generate_pdf(data):
         'margin-bottom': '0.75in',
         'margin-left': '0.75in',
         'encoding': "UTF-8",
-        'no-outline': None
+        'no-outline': None,
+        'load-error-handling' : 'ignore'
     }
-    # mdo = markdown.markdown('#' + data['title'] + '\n' + data['date'].split(' ')[0] + '  |  ' + data['tags'] + '\n\n' + data['text'], output_format='html5')
-
     wordcloud = '<ul style="list-style:none;">'
     country_counts = pd.read_json(data['location']).reset_index()
     sc = MinMaxScaler()
@@ -69,8 +71,13 @@ def generate_pdf(data):
         os.mkdir(data['source'])
 
     print(os.path.join(os.getcwd(), data['source'], data['date'] + '_' + data['title'].replace('/', '') + '.pdf'))
-    pdfkit.from_string(mdo, output_path=os.path.join(os.getcwd(), data['source'], data['date'] + '_' + data['title'].replace('/', '') + '.pdf'),
-                       options=options, configuration=config)
+
+    curr_soup = bs4.BeautifulSoup(mdo)
+    for img in curr_soup.findAll('img'):
+        if '...' in img['src']:
+            img.decompose()
+
+    pdfkit.from_string(str(curr_soup), output_path=os.path.join(os.getcwd(), urlencode(data['source'], data['date'].split(' ')[0] + '_' + data['title'][:16]) + '.pdf'))
 
 
 def export_to_pdf():
