@@ -35,7 +35,7 @@ def determine_place(d):
 
 
 articles_df['location'] = articles_df.apply(lambda a: determine_place(a), axis=1)
-#%%
+
 con = sqlite3.connect('scraping_01.db')
 articles_df.to_sql('articles', con, if_exists='replace')
 con.close()
